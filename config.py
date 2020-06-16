@@ -38,7 +38,7 @@ class Aplikacja(QWidget):
 
         # przyciski
         wybierzBtn = QPushButton("&Wybierz", self)
-        wybierzBtn.clicked.connect()
+        #wybierzBtn.clicked.connect()
 
         uczBtn = QPushButton("&Stwórz model", self)
         #uczBtn.clicked.connect(self.tworzenieModelu)
@@ -47,7 +47,7 @@ class Aplikacja(QWidget):
         zamknijBtn = QPushButton("&Zamknij", self)
         zamknijBtn.clicked.connect(quit)
 
-        ukladT.addWidget(zamknijBtn, 4, 1)
+        ukladT.addWidget(wybierzBtn, 4, 1)
         ukladT.addWidget(uczBtn, 3, 0, 1, 2)
         ukladT.addWidget(zamknijBtn, 5, 1)
 
