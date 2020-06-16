@@ -21,8 +21,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-MODEL_FILENAME = "model_nn.hdf5"
-MODEL_LABELS_FILENAME = "model_labels.dat"
 
 def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching):
 
@@ -38,15 +36,7 @@ def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching):
     trainLabels = to_categorical(y_train)
     testLabels = to_categorical(y_test)
 
-    # (X_train, X_test, Y_train, Y_test) = train_test_split(testImages, testLabels, test_size=0.25, random_state=0)
-
-    # lb = LabelBinarizer().fit(Y_train)
-    # Y_train = lb.transform(Y_train)
-    # Y_test = lb.transform(Y_test)
-
-    # with open(MODEL_LABELS_FILENAME, "wb") as f:
-    #     pickle.dump(lb, f)
-
+   
     model = Sequential()
     model.add(Conv2D(10, (pixelRead, pixelRead), padding="same", input_shape=(28, 28, 1), activation="relu"))
     model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
