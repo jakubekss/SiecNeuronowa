@@ -3,6 +3,21 @@ import sys
 import math
 #import network
 
+import keras
+from keras.datasets import mnist
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+from keras import backend as K
+from keras.models import model_from_json
+from keras.models import load_model
+
+from keras.datasets import mnist 
+from keras.utils import np_utils 
+from keras import layers 
+from keras import models 
+from keras.utils import to_categorical
+
 
 
 class Aplikacja(QWidget):
@@ -76,7 +91,7 @@ class Aplikacja(QWidget):
         loaded_model = model_from_json(loaded_model_json)
 
         # Wczytanie wag
-        h5_file, _ = QFileDialog.getOpenFileName(self, "Wybierz model", "", "Modele(*.h5)")
+        h5_file, _ = QFileDialog.getOpenFileName(self, "Wybierz wagi", "", "Wagi(*.h5)")
         loaded_model.load_weights(h5_file)
 
     
