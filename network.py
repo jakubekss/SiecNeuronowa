@@ -1,3 +1,8 @@
+pixelRead = 3
+neuronsNumber = 400
+epoch = 3
+batching = 32
+
 import os
 os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
 
@@ -44,17 +49,15 @@ Y_test = lb.transform(Y_test)
 with open(MODEL_LABELS_FILENAME, "wb") as f:
     pickle.dump(lb, f)
 
-numClasses = testLabels.shape[1]
-
 model = Sequential()
-model.add(Conv2D(10, (3, 3), padding="same", input_shape=(28, 28, 1), activation="relu"))
+model.add(Conv2D(10, (pixelRead, pixelRead), padding="same", input_shape=(28, 28, 1), activation="relu"))
 model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
 model.add(Flatten())
-model.add(Dense(400, activation="relu"))
+model.add(Dense(neuronsNumber, activation="relu"))
 model.add(Dense(10, activation="softmax"))
 model.compile(loss="categorical_crossentropy", optimizer="rmsprop", metrics=["accuracy"])
 
-history = model.fit(trainImages, trainLabels, validation_data=(testImages, testLabels), batch_size=32, epochs=3 , verbose=1)
+history = model.fit(trainImages, trainLabels, validation_data=(testImages, testLabels), batch_size=batching, epochs=epoch , verbose=1)
 
 
 model_json = model.to_json()
