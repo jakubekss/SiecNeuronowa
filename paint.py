@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, QPoint
 import sys
 import qimage2ndarray 
 import cv2
+import config
 
 import numpy as np
 
@@ -28,7 +29,16 @@ from keras.utils import to_categorical
 from matplotlib.image import imread
 import numpy as np
 
-epoki = 0
+# Wczytanie modelu z pliku
+json_file = open('model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+
+loaded_model = model_from_json(loaded_model_json)
+
+# Wczytanie Wag
+loaded_model.load_weights("model.h5")
+
 
 # Funkcja przekształcająca zdjęcie kolorowe RGB do skali szarości
 def rgb2gray(rgb):
@@ -149,20 +159,16 @@ class Window(QMainWindow):
         gray = rgb2gray(numpyImage) 
 
         # Przeształcenie zdjęcia do takiej samej stukrtury jak dane uczace, N elementowa lista zdjęć 28x28x1
-        gray = gray.reshape((1, 28, 28, 1)) 
+        gray = gray.reshape((1, 28, 28, 1))         
 
-        if epoki == 0:
-            pass
-        
-        else:
-            # użycie modelu do przewidzenia jaki jest liczba na obrazie
-            prediction = loaded_model.predict(gray)
+        # użycie modelu do przewidzenia jaki jest liczba na obrazie
+        prediction = loaded_model.predict(gray)
 
-            # wyświetlenie wartości zwróconych przez sieć 
-            print(prediction)
+        # wyświetlenie wartości zwróconych przez sieć 
+        print(prediction)
 
-            # wysiwetlenie indeksu najwiekszego elementu 
-            print(np.argmax(prediction))
+        # wysiwetlenie indeksu najwiekszego elementu 
+        print(np.argmax(prediction))
 
         
     def paintEvent(self, event):

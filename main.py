@@ -20,7 +20,10 @@ from keras.datasets import mnist
 from keras import layers 
 from keras import models 
 from keras.utils import to_categorical
-
+from keras import backend as K
+from keras.models import model_from_json
+from keras.models import load_model
+from keras.utils import np_utils 
 from matplotlib.image import imread
 
 

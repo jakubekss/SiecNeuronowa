@@ -21,7 +21,7 @@ from matplotlib import pyplot as plt
 
 
 
-def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching):
+def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching, nmodel, nwagi):
 
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
@@ -48,10 +48,10 @@ def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching):
 
 
     model_json = model.to_json()
-    with open('model.json', 'w') as json_file:
+    with open(nmodel +'.json', 'w') as json_file:
         json_file.write(model_json)
 
-    model.save_weights('model.h5')
+    model.save_weights(nwagi +'.h5')
     print('Model zapisany')
 
 
