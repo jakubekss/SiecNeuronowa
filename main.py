@@ -25,9 +25,12 @@ from matplotlib.image import imread
 
 
 from paint import Window
+from config import Aplikacja
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    aplikacja = Aplikacja()
+    aplikacja.show()
     window = Window()
     window.show()
     app.exec()
