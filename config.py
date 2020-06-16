@@ -3,20 +3,26 @@ import sys
 import math
 #import network
 
+import os
+os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
+
+import pickle
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
-from keras import backend as K
-from keras.models import model_from_json
-from keras.models import load_model
-
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.model_selection import train_test_split
 from keras.datasets import mnist 
-from keras.utils import np_utils 
 from keras import layers 
 from keras import models 
 from keras.utils import to_categorical
+
+from matplotlib.image import imread
+import numpy as np
+from matplotlib import pyplot as plt
 
 
 
