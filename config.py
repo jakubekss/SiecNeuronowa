@@ -1,7 +1,9 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton, QMessageBox, QFileDialog
 import sys
 import math
 #import network
+
+
 
 class Aplikacja(QWidget):
     def __init__(self):
@@ -44,7 +46,7 @@ class Aplikacja(QWidget):
 
         # przyciski
         wybierzBtn = QPushButton("&Wybierz", self)
-        #wybierzBtn.clicked.connect()
+        wybierzBtn.clicked.connect(self.wyborSieci)
 
         uczBtn = QPushButton("&Stwórz model", self)
         #uczBtn.clicked.connect(self.tworzenieModelu)
@@ -63,8 +65,22 @@ class Aplikacja(QWidget):
         self.setGeometry(928, 400, 300, 150)
         self.setWindowTitle("Tworzenie Modelu")
         self.show()
+
+    def wyborSieci(self):
+        # Wczytanie modelu z pliku
+        json_file, _ = QFileDialog.getOpenFileName(self, "Wybierz model", "", "Modele(*.json)")
+        #json_file = open('model.json', 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+
+        loaded_model = model_from_json(loaded_model_json)
+
+        # Wczytanie wag
+        h5_file, _ = QFileDialog.getOpenFileName(self, "Wybierz model", "", "Modele(*.h5)")
+        loaded_model.load_weights(h5_file)
+
     
-    def obliczenia(self):
+    def tworzenieModelu(self):
 
         nadawca = self.sender()
 
