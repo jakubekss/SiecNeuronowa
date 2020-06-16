@@ -1,4 +1,3 @@
-
 import os
 os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
 
@@ -79,5 +78,3 @@ def tworzenieModelu(pixelRead, neuronsNumber, epoch, batching):
     plt.xlabel('epoch')
     plt.legend(['train', 'val'], loc='upper left')
     plt.show()
-
-tworzenieModelu()
