@@ -100,12 +100,12 @@ class Aplikacja(QWidget):
         nadawca = self.sender()
 
         # try:
-        #     x = float(self.epoki.text())
-        #     y = float(self.batch.text())
-        #     z = float(self.neurony.text())
+        #     epoch = float(self.epoki.text())
+        #     batching = float(self.batch.text())
+        #     neuronsNumber = float(self.neurony.text())
             
         #     if nadawca.text() == "&Stwórz model":
-        #         network.tworzenieModelu(x, y, z) 
+        #         network.tworzenieModelu(epoch, batching, neuronsNumber, ) 
                      
 
         # except ValueError:
