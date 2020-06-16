@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton, QMessageBox, QFileDialog
 import sys
 import math
-#import network
+import network
 
 import os
 os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
@@ -109,18 +109,18 @@ class Aplikacja(QWidget):
 
         nadawca = self.sender()
 
-        # try:
-        #     epoch = float(self.epoki.text())
-        #     batching = float(self.batch.text())
-        #     neuronsNumber = float(self.neurony.text())
-        #     pixelRead = float(self.pixels.txt())
+        try:
+            epoch = float(self.epoki.text())
+            batching = float(self.batch.text())
+            neuronsNumber = float(self.neurony.text())
+            pixelRead = float(self.pixels.txt())
             
-        #     if nadawca.text() == "&Stwórz model":
-        #         network.tworzenieModelu(pixelRead, neuronsNumber, epoch, batching) 
+            if nadawca.text() == "&Stwórz model":
+                network.tworzenieModelu(pixelRead, neuronsNumber, epoch, batching) 
                      
 
-        # except ValueError:
-        #     QMessageBox.warning(self, "Błąd", "Błędne dane", QMessageBox.Ok)
+        except ValueError:
+            QMessageBox.warning(self, "Błąd", "Błędne dane", QMessageBox.Ok)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
