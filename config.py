@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdi
 import sys
 import math
 import network
-import paint
+from paint import Paint
 
 import os
 os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
@@ -32,7 +32,25 @@ class Aplikacja(QWidget):
         super(Aplikacja, self).__init__()
         
         self.interfejs()
+        self.paint = Paint(self.predict)
+        self.paint.show()  
+
+        self.loaded_model = 0  
         
+    def predict(self, image):
+
+        if self.loaded_model == 0:
+            pass
+        else:
+            # użycie modelu do przewidzenia jaki jest liczba na obrazie
+            prediction = self.loaded_model.predict(image)
+
+            # wyświetlenie wartości zwróconych przez sieć 
+            print(prediction)        
+
+            # wysiwetlenie indeksu najwiekszego elementu 
+            self.liczba.setText(str(np.argmax(prediction)))
+
 
     def interfejs(self):
 
@@ -106,13 +124,11 @@ class Aplikacja(QWidget):
         with open(json_file, 'r') as plik:
             loaded_model_json = plik.read()
         
-        loaded_model = model_from_json(loaded_model_json)
+        self.loaded_model = model_from_json(loaded_model_json)
 
         # Wczytanie wag
         h5_file, _ = QFileDialog.getOpenFileName(self, "Wybierz wagi", "", "Wagi(*.h5)")
-        loaded_model.load_weights(h5_file) 
-
-        return loaded_model      
+        self.loaded_model.load_weights(h5_file)            
 
                 
     def tworzenieModelu(self):

@@ -4,7 +4,6 @@ from PyQt5.QtCore import Qt, QPoint
 import sys
 import qimage2ndarray 
 import cv2
-import config
 
 import numpy as np
 
@@ -29,27 +28,15 @@ from keras.utils import to_categorical
 from matplotlib.image import imread
 import numpy as np
 
-# Wczytanie modelu z pliku
-json_file = open('model.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-
-loaded_model = model_from_json(loaded_model_json)
-
-# Wczytanie Wag
-loaded_model.load_weights("model.h5")
-
-
 # Funkcja przekształcająca zdjęcie kolorowe RGB do skali szarości
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.2989, 0.5870, 0.1140])
 
 
-class Window(QMainWindow):
-    def __init__(self):
-        super().__init__()
- 
- 
+class Paint(QMainWindow):
+    def __init__(self, update_function):
+        super().__init__() 
+
         title = "Aplikacja do rysowania"
         
         self.setWindowTitle(title)
@@ -57,7 +44,7 @@ class Window(QMainWindow):
 
         self.image = QImage(self.size(), QImage.Format_RGB32)
         self.image.fill(Qt.black)
-          
+           
         self.drawing = False
         self.brushSize = 9
         self.brushColor = Qt.white
@@ -119,6 +106,8 @@ class Window(QMainWindow):
         yellowAction.setShortcut("Ctrl+Y")
         brushColor.addAction(yellowAction)
         yellowAction.triggered.connect(self.yellowColor) 
+
+        self.update_function = update_function
         
                 
     def mousePressEvent(self, event):
@@ -159,16 +148,10 @@ class Window(QMainWindow):
         gray = rgb2gray(numpyImage) 
 
         # Przeształcenie zdjęcia do takiej samej stukrtury jak dane uczace, N elementowa lista zdjęć 28x28x1
-        gray = gray.reshape((1, 28, 28, 1))         
+        gray = gray.reshape((1, 28, 28, 1))  
 
-        # użycie modelu do przewidzenia jaki jest liczba na obrazie
-        prediction = loaded_model.predict(gray)
 
-        # wyświetlenie wartości zwróconych przez sieć 
-        print(prediction)
-
-        # wysiwetlenie indeksu najwiekszego elementu 
-        print(np.argmax(prediction))
+        self.update_function(gray)      
 
         
     def paintEvent(self, event):
@@ -222,6 +205,6 @@ class Window(QMainWindow):
  
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Window()
+    window = Paint()
     window.show()
     app.exec()
